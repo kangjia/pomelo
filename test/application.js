@@ -3,7 +3,7 @@ var app = require('../' + lib + '/application');
 var pomelo = require('../');
 var should = require('should');
 
-var WAIT_TIME = 100;
+var WAIT_TIME = 300;
 var mockBase = process.cwd() + '/test';
 
 describe('application test', function(){
@@ -58,16 +58,19 @@ describe('application test', function(){
 
       var mockComponent = {
         start: function(cb) {
+          console.log('start invoked');
           startCount++;
           cb();
         },
 
         afterStart: function(cb) {
+          console.log('afterStart invoked');
           afterStartCount++;
           cb();
         },
 
         stop: function(force, cb) {
+          console.log('stop invoked');
           stopCount++;
           cb();
         }
@@ -280,7 +283,7 @@ describe('application test', function(){
   describe('#add and remove servers', function() {
     it('should add servers and emit event and fetch the new server info by get methods', function(done) {
       var newServers = [
-        {id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, wsPort: 3000},
+        {id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, clientPort: 3000, frontend: true},
         {id: 'area-server-1', serverType: 'area', host: '127.0.0.1', port: 2234}
       ];
       app.init({base: mockBase});
@@ -334,12 +337,12 @@ describe('application test', function(){
 
     it('should remove server info and emit event', function(done) {
       var newServers = [
-        {id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, wsPort: 3000},
+        {id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, clientPort: 3000, frontend: true},
         {id: 'area-server-1', serverType: 'area', host: '127.0.0.1', port: 2234},
         {id: 'path-server-1', serverType: 'path', host: '127.0.0.1', port: 2235}
       ];
       var destServers = [
-        {id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, wsPort: 3000},
+        {id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, clientPort: 3000, frontend: true},
         {id: 'path-server-1', serverType: 'path', host: '127.0.0.1', port: 2235}
       ];
       var delIds = ['area-server-1'];
